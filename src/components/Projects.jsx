@@ -5,7 +5,7 @@ const Projects = () => {
     {
       id: 1,
       title: "E-Commerce Website",
-      description: "A full-stack e-commerce platform with React frontend and Node.js backend. Features user authentication, product filtering, and payment integration.",
+      description: "A full-stack electronic products review platform with Html,css,Js frontend and django backend. Features user authentication, product filtering,review system and Rating Aggregation.",
       technologies: ["Python", "Django", "Js", "Html/CSS"],
       githubUrl: "#",
       liveUrl: "#",
