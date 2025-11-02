@@ -1,4 +1,6 @@
 import React from 'react';
+// 1. IMPORT LINK HERE
+import { Link } from 'react-router-dom'; 
 import TECH from "../assets/images/TECHR.png";
 import web from "../assets/images/logo-pf.png";
 // TODO: Import your main design poster image here
@@ -29,22 +31,19 @@ const Projects = () => {
     {
       id: 5,
       title: "Digital Arts & Design",
-      description: "A snapshot of my skills across digital art. Click 'View Designs' to see a gallery of my posters and creative work.", // <-- Updated description
+      description: "A snapshot of my skills across digital art. Click 'View Designs' to see a gallery of my posters and creative work.",
       technologies: ["Figma", "Canva", "Photoshop"],
-      
-      // --- MODIFICATIONS HERE ---
-      isDesignProject: true, // <-- 1. Added a flag to identify this project
-      galleryUrl: "/design-gallery", // <-- 2. Added URL for your new gallery page (or use an external Behance/Dribbble link)
-      // TODO: Replace 'web' with your imported design poster image
-      image: web, // <-- 3. Use your actual design image here
-      accentColor: "from-pink-500 via-red-500 to-yellow-500" // <-- Changed accent color for variety
+      isDesignProject: true,
+      galleryUrl: "/design-gallery", // This must match the path in App.jsx
+      image: web, // TODO: Replace this with your design image
+      accentColor: "from-pink-500 via-red-500 to-yellow-500"
     },
   ];
 
   return (
     <section id="projects" className="min-h-screen py-20 bg-gradient-to-b from-gray-900 via-black to-gray-900 text-white">
       <div className="container mx-auto px-6">
-        {/* Section Header (No changes) */}
+        {/* Section Header */}
         <div className="text-center mb-20">
           <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
             Featured Projects
@@ -55,7 +54,7 @@ const Projects = () => {
           <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-6 rounded"></div>
         </div>
 
-        {/* Projects Grid (No changes to grid, only content inside map) */}
+        {/* Projects Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-10">
           {projects.map((project) => (
             <div 
@@ -64,39 +63,28 @@ const Projects = () => {
              hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-500 transform 
              hover:-translate-y-2 hover:scale-[1.02]"
             >
-              {/* Project Image/Icon (No changes) */}
+              {/* Project Image/Icon */}
               <div className="rounded-2xl shadow-lg bg-white overflow-hidden">
+                {/* ... (image rendering logic) ... */}
                 {typeof project.image === "string" && (project.image.startsWith("http") || project.image.endsWith(".jpg") || project.image.endsWith(".png")) ? (
-                  <img 
-                    src={project.image} 
-                    alt={project.title} 
-                    className="w-full h-40 sm:h-48 md:h-56 lg:h-64 xl:h-72 object-cover rounded-t-2xl"
-                  />
+                  <img src={project.image} alt={project.title} className="w-full h-40 sm:h-48 md:h-56 lg:h-64 xl:h-72 object-cover rounded-t-2xl"/>
                 ) : typeof project.image === "string" ? (
-                  <div className="flex justify-center items-center h-40 sm:h-48 md:h-56 lg:h-64 xl:h-72 text-6xl">
-                    {project.image}
-                  </div>
+                  <div className="flex justify-center items-center h-40 sm:h-48 md:h-56 lg:h-64 xl:h-72 text-6xl">{project.image}</div>
                 ) : (
-                  <img 
-                    src={project.image}   // handles imported TECH variable
-                    alt={project.title} 
-                    className="w-full h-40 sm:h-48 md:h-56 lg:h-64 xl:h-72 object-cover rounded-t-2xl"
-                  />
+                  <img src={project.image} alt={project.title} className="w-full h-40 sm:h-48 md:h-56 lg:h-64 xl:h-72 object-cover rounded-t-2xl"/>
                 )}
               </div>
 
               
-              {/* Project Content (No changes to text/techs) */}
+              {/* Project Content */}
               <div className="p-8">
                 <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors duration-300">
                   {project.title}
                 </h3>
-                
                 <p className="text-gray-300 mb-6 leading-relaxed text-justify">
                   {project.description}
                 </p>
-                
-                {/* Technologies (No changes) */}
+                {/* Technologies */}
                 <div className="flex flex-wrap gap-3 mb-6">
                   {project.technologies.map((tech, index) => (
                     <span 
@@ -108,30 +96,27 @@ const Projects = () => {
                   ))}
                 </div>
 
-                {/* --- MODIFIED PROJECT LINKS SECTION --- */}
+                {/* --- PROJECT LINKS SECTION --- */}
                 <div className="flex space-x-5 border-t border-gray-700 pt-6">
-
-                  {/* 4. Use conditional rendering */}
                   {project.isDesignProject ? (
-                    // --- IF IT'S A DESIGN PROJECT, SHOW THIS: ---
-                    <a 
-                      href={project.galleryUrl} // <-- Links to your new gallery page
-                      // If using an external link like Behance, add: target="_blank" rel="noopener noreferrer"
+                    // 2. THIS MUST BE A <Link> COMPONENT WITH A 'to' PROP
+                    <Link 
+                      to={project.galleryUrl} 
                       className="flex items-center text-gray-300 hover:text-pink-400 transition-all duration-300 transform hover:scale-105 font-semibold group/link"
                     >
                       <div className="bg-gray-700/50 p-2 rounded-lg mr-3 group-hover/link:bg-pink-500/30 transition-colors duration-300 group-hover/link:scale-110 border border-gray-600">
-                        {/* A new icon (e.g., for 'design' or 'gallery') */}
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1-1m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                       </div>
                       View Designs
-                    </a>
+                    </Link>
                   ) : (
-                    // --- OTHERWISE, SHOW THE DEFAULT LINKS: ---
+                    // --- Default Links ---
                     <>
                       <a 
                         href={project.githubUrl}
+                        target="_blank" rel="noopener noreferrer" // Good practice for external links
                         className="flex items-center text-gray-300 hover:text-blue-400 transition-all duration-300 transform hover:scale-105 font-semibold group/link"
                       >
                         <div className="bg-gray-700/50 p-2 rounded-lg mr-3 group-hover/link:bg-blue-500/30 transition-colors duration-300 group-hover/link:scale-110 border border-gray-600">
@@ -143,6 +128,7 @@ const Projects = () => {
                       </a>
                       <a 
                         href={project.liveUrl}
+                        target="_blank" rel="noopener noreferrer" // Good practice for external links
                         className="flex items-center text-gray-300 hover:text-purple-400 transition-all duration-300 transform hover:scale-105 font-semibold group/link"
                       >
                         <div className="bg-gray-700/50 p-2 rounded-lg mr-3 group-hover/link:bg-purple-500/30 transition-colors duration-300 group-hover/link:scale-110 border border-gray-600">
@@ -160,7 +146,7 @@ const Projects = () => {
           ))}
         </div>
 
-        {/* View More Button (No changes) */}
+        {/* View More Button */}
         <div className="text-center mt-16">
           <button 
             className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-12 py-4 rounded-xl hover:shadow-lg hover:shadow-purple-500/40 transition-all duration-500 transform hover:scale-105 font-semibold disabled:opacity-70 disabled:cursor-not-allowed group relative overflow-hidden border border-purple-500/30"
