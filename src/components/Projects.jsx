@@ -13,7 +13,7 @@ const Projects = () => {
       title: "E-Review Website",
       description: "A full-stack electronic products review platform with HTML/CSS/JS frontend and Django backend. Features user authentication, product filtering, review system, and rating aggregation.",
       technologies: ["Python", "Django", "JavaScript", "HTML/CSS"],
-      githubUrl: "#",
+      githubUrl: "https://github.com/Rishabadev/Tech-talks",
       liveUrl: "#",
       image: TECH,
       accentColor: "from-blue-500 via-purple-500 to-pink-500"
