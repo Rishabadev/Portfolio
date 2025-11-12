@@ -23,7 +23,7 @@ const Projects = () => {
       title: "Portfolio Website",
       description: "A responsive portfolio website built with React and Tailwind CSS featuring smooth animations, modern design, and optimized performance.",
       technologies: ["React", "Tailwind CSS", "Vite", "GitHub Pages"],
-      githubUrl: "#",
+      githubUrl: "https://github.com/Rishabadev/Portfolio",
       liveUrl: "https://rishabadev.github.io/Portfolio/",
       image: web,
       accentColor: "from-blue-500 via-purple-500 to-pink-500"
