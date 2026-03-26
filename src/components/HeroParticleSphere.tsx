@@ -4,11 +4,11 @@ import { useMemo, useRef, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-const PARTICLE_COUNT = 70;
-const RADIUS = 3;
-const MAX_DISTANCE = 1.2;
+const PARTICLE_COUNT = 80;
+const RADIUS = 2.6;
+const MAX_DISTANCE = 0.42;
 
-function Network() {
+function ParticleSphere() {
   const groupRef = useRef<THREE.Group>(null);
   const pointsRef = useRef<THREE.Points>(null);
   const linesRef = useRef<THREE.LineSegments>(null);
@@ -16,7 +16,7 @@ function Network() {
   const mouse = useRef(new THREE.Vector2(0, 0));
   const targetRotation = useRef(new THREE.Vector2(0, 0));
 
-  // Even spherical distribution using Golden Spiral
+  // Golden spiral sphere distribution
   const basePositions = useMemo(() => {
     const pos: THREE.Vector3[] = [];
     const phi = Math.PI * (3 - Math.sqrt(5));
@@ -47,7 +47,7 @@ function Network() {
       pos[i * 3 + 2] = basePositions[i].z;
     }
 
-    const lines = new Float32Array(PARTICLE_COUNT * 15 * 3);
+    const lines = new Float32Array(PARTICLE_COUNT * 10 * 3);
 
     return [pos, lines];
   }, [basePositions]);
@@ -58,7 +58,7 @@ function Network() {
         color: "#FBBF24",
         size: 0.06,
         transparent: true,
-        opacity: 0.85,
+        opacity: 0.9,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
       }),
@@ -69,7 +69,7 @@ function Network() {
     const geom = new THREE.BufferGeometry();
     geom.setAttribute("position", new THREE.BufferAttribute(initialLines, 3));
 
-    const colors = new Float32Array(PARTICLE_COUNT * 15 * 3);
+    const colors = new Float32Array(PARTICLE_COUNT * 10 * 3);
     geom.setAttribute("color", new THREE.BufferAttribute(colors, 3));
 
     return geom;
@@ -80,7 +80,7 @@ function Network() {
       new THREE.LineBasicMaterial({
         vertexColors: true,
         transparent: true,
-        opacity: 0.5,
+        opacity: 1,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
       }),
@@ -92,11 +92,12 @@ function Network() {
       mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
       mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
 
-      targetRotation.current.x = mouse.current.y * 0.2;
-      targetRotation.current.y = mouse.current.x * 0.2;
+      targetRotation.current.x = mouse.current.y * 0.15;
+      targetRotation.current.y = mouse.current.x * 0.15;
     };
 
     window.addEventListener("mousemove", handleMouseMove);
+
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
@@ -118,27 +119,32 @@ function Network() {
       const positionsAttr = pointsRef.current.geometry.attributes.position;
       const posArray = positionsAttr.array as Float32Array;
 
-      for (let i = 0; i < PARTICLE_COUNT; i++) {
-        const idx = i * 3;
-        const base = basePositions[i];
-
-        const driftX = Math.sin(t * 0.5 + i) * 0.12;
-        const driftY = Math.cos(t * 0.4 + i * 2) * 0.12;
-        const driftZ = Math.sin(t * 0.3 + i * 3) * 0.12;
-
-        posArray[idx] = base.x + driftX;
-        posArray[idx + 1] = base.y + driftY;
-        posArray[idx + 2] = base.z + driftZ;
-      }
-
-      positionsAttr.needsUpdate = true;
-
       let lineIndex = 0;
+
       const lineArray =
         linesRef.current.geometry.attributes.position.array as Float32Array;
 
       const colorArray =
         linesRef.current.geometry.attributes.color.array as Float32Array;
+
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const idx = i * 3;
+        const base = basePositions[i];
+
+        const driftX = Math.sin(t * 0.4 + i) * 0.08;
+        const driftY = Math.cos(t * 0.3 + i * 2) * 0.08;
+        const driftZ = Math.sin(t * 0.35 + i * 3) * 0.08;
+
+        const tx = base.x + driftX;
+        const ty = base.y + driftY;
+        const tz = base.z + driftZ;
+
+        posArray[idx] = tx;
+        posArray[idx + 1] = ty;
+        posArray[idx + 2] = tz;
+      }
+
+      positionsAttr.needsUpdate = true;
 
       for (let i = 0; i < PARTICLE_COUNT; i++) {
         for (let j = i + 1; j < PARTICLE_COUNT; j++) {
@@ -165,7 +171,7 @@ function Network() {
             lineArray[lineIndex + 5] = jz;
 
             const alpha =
-              (1 - Math.sqrt(distSq) / MAX_DISTANCE) * 0.8;
+              (1 - Math.sqrt(distSq) / MAX_DISTANCE) * 0.7;
 
             for (let k = 0; k < 2; k++) {
               colorArray[lineIndex + k * 3] = 0.98 * alpha;
@@ -197,22 +203,22 @@ function Network() {
   );
 }
 
-export default function NeuralNetwork3D() {
+export default function HeroParticleSphere() {
   return (
     <div
       style={{
         position: "absolute",
         top: 0,
-        left: 0,
-        width: "100%",
+        left: "40%",
+        width: "60%",
         height: "100%",
         zIndex: 0,
+        opacity: 0.9,
         pointerEvents: "none",
-        opacity: 0.6,
       }}
     >
-      <Canvas camera={{ position: [0, 0, 9], fov: 45 }}>
-        <Network />
+      <Canvas camera={{ position: [0, 0, 12], fov: 45 }}>
+        <ParticleSphere />
       </Canvas>
     </div>
   );

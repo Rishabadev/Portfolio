@@ -19,6 +19,12 @@ export default function About() {
           <p>
             I enjoy designing intelligent solutions, building scalable applications, and turning complex ideas into practical, real-world systems.
           </p>
+          <div style={{ marginTop: '2rem' }}>
+            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className={styles.primaryBtn} style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+              Download Resume
+            </a>
+          </div>
         </div>
         <div>
           <h3 style={{ marginBottom: "1rem", fontSize: "1.2rem" }}>My Skills</h3>
